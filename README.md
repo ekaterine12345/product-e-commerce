@@ -8,7 +8,7 @@ order items from cart, and view orders.
 * USER - the general user which registers to the system; able to see and purchase products;
 * ADMIN - the root built-in user, able to view, add, update and delete products; Can add EDITORs to system; 
 * EDITOR - low-profile admin, able to view, add and update product, but can not delete; after root admin adds editor user manually,
-   editor gets email notofication link to activate account and set password.
+   editor gets link as an email notofication to activate account and set password.
 
 ## Used Technologies:
 * Java 25
