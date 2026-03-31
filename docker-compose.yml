@@ -1,0 +1,59 @@
+version: "3.9"
+
+services:
+
+  postgres-product:
+    image: postgres:16
+    container_name: product-postgres
+    restart: always
+    environment:
+      POSTGRES_DB: productdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_product_data:/var/lib/postgresql/data
+
+  postgres-keycloak:
+    image: postgres:16
+    container_name: keycloak-postgres
+    restart: always
+    environment:
+      POSTGRES_DB: keycloakdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_keycloak_data:/var/lib/postgresql/data
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.0
+    container_name: keycloak
+    command: start-dev
+    restart: always
+    environment:
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres-keycloak:5432/keycloakdb
+      KC_DB_USERNAME: postgres
+      KC_DB_PASSWORD: postgres
+
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+
+      KC_SMTP_HOST: smtp.gmail.com
+      KC_SMTP_PORT: 587
+      KC_SMTP_USER: ${KC_SMTP_EMAIL}
+      KC_SMTP_PASSWORD: ${KC_SMTP_PASSWORD}
+      KC_SMTP_FROM: ${KC_SMTP_EMAIL}
+      KC_SMTP_STARTTLS: true
+      KC_SMTP_AUTH: true
+    ports:
+      - "9090:8080"
+    depends_on:
+      - postgres-keycloak
+
+volumes:
+  postgres_product_data:
+  postgres_keycloak_data:
