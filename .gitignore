@@ -1,5 +1,6 @@
 logs
 .env
+.DS_Store
 
 HELP.md
 .gradle

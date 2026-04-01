@@ -34,10 +34,6 @@ public class AuthController {
         return ResponseEntity.ok(authService.login(request));
     }
 
-    // TODO: credit card integration * later
-
-    // TODO : email - გაგზავნა ავამუშაო
-    // 1. TODO: minor admin - ადმინ იუზერი ამატებს შედარებით დაბალი რანგის მქონე ადმინებს,
-    //       რომლებსაც შეულიათ პროდუქციის ნახვა, დამატება, დააფდეიტება მაგრამ არა წაშლა    DONE
+    // 1. TODO: credit card integration * later
     // 2. TODO: მარაგების ნახვა, არის თუ არა არსებული პროდუქტი მარაგში, ადმინი (მაინორ ადმინი?) ამატებდეს მარაგებს - microservices
 }

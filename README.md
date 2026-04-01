@@ -27,4 +27,4 @@ order items from cart, and view orders.
 ## Coming Soon
 * Payment Integration
 * Inventory Microservice
-* Better Documentation :)
+* Better Documentation (scheme DB images, user flow, endpoints)
