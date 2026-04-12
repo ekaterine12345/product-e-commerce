@@ -1,16 +1,39 @@
 # E-commerce
 
 ## Overview
-This is an e-commerce back-end side written using Java 25 and Spring Boot 4. Users can register to the website and sing in. Signed In users can add or delete items to cart, see item in cart with their coresponding quantity,
-order items from cart, and view orders.
+This project is a backend service for an e-commerce platform, built with Java 25 and Spring Boot 4.
 
-## User types:
-* USER - the general user which registers to the system; able to see and purchase products;
-* ADMIN - the root built-in user, able to view, add, update and delete products; Can add EDITORs to system; 
-* EDITOR - low-profile admin, able to view, add and update product, but can not delete; after root admin adds editor user manually,
-   editor gets link as an email notofication to activate account and set password.
+It provides core functionality for managing users, products, carts, and orders. The system supports authentication and role-based access control, allowing different user types to perform specific actions within the platform.
 
-## Used Technologies:
+## Key Features
+* User registration and authentication
+* Role-based authorization (USER, ADMIN, EDITOR)
+* Product management
+* Shopping cart functionality
+* Order creation and tracking
+
+## User Roles:
+### USER
+* Registers and logs into the system
+* Browses products
+* Adds/removes items from cart
+* Views cart with quantities
+* Places orders
+* Views order history
+### ADMIN 
+* Full system access
+* Manage products (create, update, delete)
+* Manage users
+* Can create EDITOR accounts
+### EDITOR
+* Limited administrative privileges:
+   *  View products
+   * Add new products
+   * Update existing products
+* Cannot delete products
+* Receives an email invitation to activate their account and set a password
+
+## Tech Stack:
 * Java 25
 * Spring Boot 4.0.3
 * Gradle (Groovy)
@@ -22,9 +45,23 @@ order items from cart, and view orders.
 * Mapstruct
 * PostgreSQL
 * Docker
-* Validations
+* Validation
 
-## Coming Soon
+## Getting Started
+### Prerequisites
+* Java 25
+* Docker & Docker Compose
+* PostgreSQL (if running locally without Docker)
+
+### Run with Docker
+``` docker-compose up --build ```
+
+### Run locally
+``` ./gradlew bootRun ```
+
+## Future Improvements
 * Payment Integration
 * Inventory Microservice
-* Better Documentation (scheme DB images, user flow, endpoints)
+* Database schema diagrams
+* User flow documentation
+* API documentation (Swagger/OpenAPI improvements)
