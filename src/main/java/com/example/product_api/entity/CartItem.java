@@ -41,5 +41,38 @@ public class CartItem extends BaseEntity<Long>{
     @JoinColumn(name = "product_id")
     private Product product;
 
+    @Column(nullable = false)
+    @jakarta.validation.constraints.Min(1)
     private Integer quantity;
+
+    public CartItem(Cart cart, Product product, int quantity) {
+        this.cart = cart;
+        this.product = product;
+        setQuantity(quantity);
+    }
+
+    public void increase(int amount) {
+        validatePositive(amount);
+        this.quantity += amount;
+    }
+
+    public void decrease(int amount) {
+        validatePositive(amount);
+
+        if (amount >= this.quantity) {
+            throw new IllegalArgumentException("Cannot reduce below 1. Use remove endpoint instead.");
+        } else {
+            this.quantity -= amount;
+        }
+    }
+
+    public boolean isZero() {
+        return quantity == 0;
+    }
+
+    private void validatePositive(int value) {
+        if (value <= 0) {
+            throw new IllegalArgumentException("Quantity must be greater than 0");
+        }
+    }
 }

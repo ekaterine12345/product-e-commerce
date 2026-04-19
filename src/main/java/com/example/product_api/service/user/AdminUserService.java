@@ -1,11 +1,14 @@
 package com.example.product_api.service.user;
 
 import com.example.product_api.dto.auth.CreateEditorRequest;
+import com.example.product_api.dto.user.UserListResponse;
 import com.example.product_api.enums.Role;
 import com.example.product_api.service.auth.KeycloakClient;
 import lombok.RequiredArgsConstructor;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -27,5 +30,12 @@ public class AdminUserService {
         user.setEnabled(true);
         user.setEmailVerified(false);
         return user;
+    }
+
+    public UserListResponse getAllUsersAndEditors() {
+        List<UserRepresentation> users = keycloakClient.getUsersByRole(Role.USER);
+        List<UserRepresentation> editors = keycloakClient.getUsersByRole(Role.EDITOR);
+
+        return new UserListResponse(users, editors);
     }
 }

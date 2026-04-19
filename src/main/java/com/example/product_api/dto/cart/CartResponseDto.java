@@ -5,4 +5,4 @@ import java.util.List;
 public record CartResponseDto(
         Long cartId,
         List<CartItemResponseDto> items
-) {}
+) {} // TODO: total price

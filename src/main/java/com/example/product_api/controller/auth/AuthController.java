@@ -36,4 +36,7 @@ public class AuthController {
 
     // 1. TODO: credit card integration * later
     // 2. TODO: მარაგების ნახვა, არის თუ არა არსებული პროდუქტი მარაგში, ადმინი (მაინორ ადმინი?) ამატებდეს მარაგებს - microservices
+    // 3. TODO: admin can attach rols: user => user + editor or editor => editor + user
+
+
 }

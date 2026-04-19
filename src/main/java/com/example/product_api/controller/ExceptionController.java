@@ -1,6 +1,7 @@
 package com.example.product_api.controller;
 
 import com.example.product_api.dto.ApiResponse;
+import com.example.product_api.exception.cart.ItemNotInCartException;
 import com.example.product_api.exception.cart.CartNotFoundException;
 import com.example.product_api.exception.cart.EmptyCartException;
 import com.example.product_api.exception.user.KeycloakUserCreationException;
@@ -13,6 +14,9 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
 
 @Slf4j
 @ControllerAdvice
@@ -36,6 +40,19 @@ public class ExceptionController {
         return ResponseEntity.badRequest().body(apiResponse);
     }
 
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<ApiResponse> handleConstraintViolation(ConstraintViolationException ex) {
+        ApiResponse apiResponse = new ApiResponse();
+
+        for (ConstraintViolation<?> violation : ex.getConstraintViolations()) {
+            String field = violation.getPropertyPath().toString();
+            String message = violation.getMessage();
+            apiResponse.addError(field, message);
+        }
+
+        return ResponseEntity.badRequest().body(apiResponse);
+    }
+
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<ApiResponse> handleEntityNotFound(EntityNotFoundException ex) {
 
@@ -43,6 +60,13 @@ public class ExceptionController {
         apiResponse.addError("entity_not_found", ex.getMessage());
 
         return ResponseEntity.status(404).body(apiResponse);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ApiResponse> handleIllegalArgument(IllegalArgumentException ex) {
+        ApiResponse apiResponse = new ApiResponse();
+        apiResponse.addError("invalid_argument", ex.getMessage());
+        return ResponseEntity.badRequest().body(apiResponse);
     }
 
     @ExceptionHandler(UserAlreadyExistsException.class)
@@ -81,6 +105,13 @@ public class ExceptionController {
         return ResponseEntity.status(500).body(apiResponse);
     }
 
+    @ExceptionHandler(ItemNotInCartException.class)
+    public ResponseEntity<ApiResponse> handleItemNotInCart(ItemNotInCartException ex) {
+        ApiResponse apiResponse = new ApiResponse();
+        apiResponse.addError("item_not_in_cart", ex.getMessage());
+        return ResponseEntity.status(404).body(apiResponse);
+    }
+
     @ResponseBody
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse> handleUnexpectedException(Exception e){
@@ -88,5 +119,5 @@ public class ExceptionController {
         ApiResponse apiResponse = new ApiResponse();
         apiResponse.addError("unknown ex = ", e.getMessage());
         return ResponseEntity.status(500).body(apiResponse);
-    }
+    } // /todo: log in  JSON format
 }

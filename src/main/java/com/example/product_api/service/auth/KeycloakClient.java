@@ -33,6 +33,14 @@ public class KeycloakClient {
         this.properties = properties;
     }
 
+
+    public List<UserRepresentation> getUsersByRole(Role role) {
+        return realm()
+                .roles()
+                .get(role.name())
+                .getUserMembers();
+    }
+
     private void setPassword(String userId, String password) {
 
         CredentialRepresentation credential = new CredentialRepresentation();
